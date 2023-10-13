@@ -12,9 +12,12 @@ for cyrillic, latin in zip(CYRILLIC_SYMBOLS, TRANSLATION):
 
 
 def normalize(name: str) -> str:
-    if name.rfind(".") != (-1 | 0):
+    if name.find(".") == 0:
+        name = name.replace('.', '_', 1)
+
+    if name.rfind(".") != -1:
         base_name, ext = name.rsplit('.', 1)
-        translate_name = re.sub(r'\W', '_', base_name.translate(TRANS))
+        translate_name = re.sub(r'[^a-zA-Z\.\d]', '_', base_name.translate(TRANS))
         return f"{translate_name}.{ext}"
     else:
         return re.sub(r'\W', '_', name.translate(TRANS))
